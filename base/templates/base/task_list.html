@@ -1,0 +1,125 @@
+{%if request.user.is_authenticated%}
+
+<b>USER ID : {{request.user}}</b>
+<hr />
+<h3>My To Do List</h3>
+<a href="{% url 'task-create' %}"> Add New Task</a><br />
+<a href="{% url 'logout' %}">Logout</a><br />
+<!-- <div class="dropdown">
+  <button>Sort</button>
+  <div class="dropdown-options">
+    <a href="{% url 'deadline-sort' %}">Deadline</a>
+    <a href="#">Setting</a>
+    <a href="#">Logout</a>
+  </div>
+</div> -->
+<br />
+
+<script>
+  
+</script>
+
+<style>
+  table,
+  th,
+  td {
+    border: 1px solid white;
+    border-collapse: collapse;
+    padding: 40px;
+  }
+  th,
+  td {
+    background-color: #96d4d4;
+  }
+
+  .dropdown {
+    display: inline-block;
+    position: relative;
+  }
+
+  button {
+    border: none;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #ddd;
+  }
+
+  .dropdown-options {
+    display: none;
+    position: absolute;
+    overflow: auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.4);
+  }
+
+  .dropdown:hover .dropdown-options {
+    display: block;
+  }
+
+  .dropdown-options a {
+    display: block;
+    color: #000000;
+    padding: 5px;
+    text-decoration: none;
+    padding: 20px 40px;
+  }
+
+  .dropdown-options a:hover {
+    color: #0a0a23;
+    background-color: #ddd;
+    border-radius: 5px;
+  }
+</style>
+
+<table>
+  <tr>
+    <th>
+      <b>All Tasks</b>
+    </th>
+    <th>
+      <b>Deadline</b>
+    </th>
+    <th>
+      <b>Completed</b>
+    </th>
+    <th>
+      <b>Update</b>
+    </th>
+    <th>
+      <b>DeleteTask</b>
+    </th>
+  </tr>
+  {% for tasks in all_tasks %}
+  <tr>
+    <td>{{tasks.task}}</td>
+    <td>{{tasks.deadline}}</td>
+
+    {% if tasks.complete %}
+    <td>Completed</td>
+    {% else %}
+    <td>Not Completed</td>
+    {% endif %}
+
+    <!-- <td>><button onclick="taskUpdate()" >Not Completed</button></td> -->
+
+
+    <!-- <td>{{tasks.complete}}</td> -->
+    <!-- <input type="checkbox" > -->
+    <td><a href="{% url 'task-update' tasks.id %}">Edit</a></td>
+    <td><a href="{% url 'task-delete' tasks.id %}">Delete</a></td>
+  </tr>
+  {%empty%}
+  <h3>No Task is Added</h3>
+  {% endfor %}
+</table>
+{% else %}
+
+<h1>not authenticated</h1>
+<a href="{% url 'login' %}">login here</a>
+{% endif %}

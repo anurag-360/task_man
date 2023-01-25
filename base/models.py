@@ -19,7 +19,7 @@ class Task(models.Model):
 
     #odering
     class Meta:
-        ordering = ['-deadline']
+        ordering = ['complete']
 
 
 

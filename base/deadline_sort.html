@@ -1,0 +1,35 @@
+<table>
+  <tr>
+    <th>
+      <b>All Tasks</b>
+    </th>
+    <th>
+      <b>Deadline</b>
+    </th>
+    <th>
+      <b>Completed</b>
+    </th>
+    <th>
+      <b>Update</b>
+    </th>
+    <th>
+      <b>DeleteTask</b>
+    </th>
+  </tr>
+  {% for tasks in all_tasks %}
+  <tr>
+    <td>{{tasks.task}}</td>
+    <td>{{tasks.deadline}}</td>
+
+    {% if tasks.complete %}
+    <td>Completed</td>
+    {% else %}
+    <td>Not Completed</td>
+    {% endif %}
+    <td><a href="{% url 'task-update' tasks.id %}">Edit</a></td>
+    <td><a href="{% url 'task-delete' tasks.id %}">Delete</a></td>
+  </tr>
+  {%empty%}
+  <h3>No Task is Added</h3>
+  {% endfor %}
+</table>

@@ -5,19 +5,58 @@
 <h3>My To Do List</h3>
 <a href="{% url 'task-create' %}"> Add New Task</a><br />
 <a href="{% url 'logout' %}">Logout</a><br />
-<!-- <div class="dropdown">
+<div class="dropdown">
   <button>Sort</button>
   <div class="dropdown-options">
     <a href="{% url 'deadline-sort' %}">Deadline</a>
-    <a href="#">Setting</a>
-    <a href="#">Logout</a>
+    <a href="{% url 'complete-sort' %}">Complete</a>
+    <a href="{% url 'name-sort' %}">Name</a>
   </div>
-</div> -->
+</div>
 <br />
 
-<script>
-  
-</script>
+<script></script>
+
+<table>
+  <tr>
+    <th>
+      <b>All Tasks</b>
+    </th>
+    <th>
+      <b>Deadline</b>
+    </th>
+    <th>
+      <b>Completed</b>
+    </th>
+    <th>
+      <b>Update</b>
+    </th>
+    <th>
+      <b>DeleteTask</b>
+    </th>
+  </tr>
+  {% for tasks in all_tasks %}
+  <tr>
+    <td>{{tasks.task}}</td>
+    <td>{{tasks.deadline}}</td>
+
+    {% if tasks.complete %}
+    <td>Completed</td>
+    {% else %}
+    <td>Not Completed</td>
+    {% endif %}
+    <td><a href="{% url 'task-update' tasks.id %}">Edit</a></td>
+    <td><a href="{% url 'task-delete' tasks.id %}">Delete</a></td>
+  </tr>
+  {%empty%}
+  <h3>No Task is Added</h3>
+  {% endfor %}
+</table>
+{% else %}
+
+<h1>not authenticated</h1>
+<a href="{% url 'login' %}">login here</a>
+{% endif %}
 
 <style>
   table,
@@ -76,50 +115,3 @@
     border-radius: 5px;
   }
 </style>
-
-<table>
-  <tr>
-    <th>
-      <b>All Tasks</b>
-    </th>
-    <th>
-      <b>Deadline</b>
-    </th>
-    <th>
-      <b>Completed</b>
-    </th>
-    <th>
-      <b>Update</b>
-    </th>
-    <th>
-      <b>DeleteTask</b>
-    </th>
-  </tr>
-  {% for tasks in all_tasks %}
-  <tr>
-    <td>{{tasks.task}}</td>
-    <td>{{tasks.deadline}}</td>
-
-    {% if tasks.complete %}
-    <td>Completed</td>
-    {% else %}
-    <td>Not Completed</td>
-    {% endif %}
-
-    <!-- <td>><button onclick="taskUpdate()" >Not Completed</button></td> -->
-
-
-    <!-- <td>{{tasks.complete}}</td> -->
-    <!-- <input type="checkbox" > -->
-    <td><a href="{% url 'task-update' tasks.id %}">Edit</a></td>
-    <td><a href="{% url 'task-delete' tasks.id %}">Delete</a></td>
-  </tr>
-  {%empty%}
-  <h3>No Task is Added</h3>
-  {% endfor %}
-</table>
-{% else %}
-
-<h1>not authenticated</h1>
-<a href="{% url 'login' %}">login here</a>
-{% endif %}

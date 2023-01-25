@@ -23,15 +23,35 @@ class TaskList(LoginRequiredMixin,ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['all_tasks'] = context['all_tasks'].filter(user = self.request.user)
-        # context['all_tasks'] = context['all_tasks'].ordering
         return context
 
-    # def get_queryset(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context['all_tasks'] = super(TaskList, self).get_queryset(**kwargs)
-    #     context['all_tasks'] = context.order_by("deadline")
-    #     return context
+class DeadlineSort(LoginRequiredMixin,ListView):
+    model = Task
+    context_object_name = 'all_tasks'
 
+    def get_queryset(self, **kwargs):
+        context = super().get_queryset(**kwargs)
+        context= context.filter(user=self.request.user).order_by('deadline')
+        return context
+        
+class CompleteSort(LoginRequiredMixin,ListView):
+    model = Task
+    context_object_name = 'all_tasks'
+
+    def get_queryset(self, **kwargs):
+        context = super().get_queryset(**kwargs)
+        context= context.filter(user=self.request.user).order_by('-complete')
+        return context
+
+        
+class NameSort(LoginRequiredMixin,ListView):
+    model = Task
+    context_object_name = 'all_tasks'
+
+    def get_queryset(self, **kwargs):
+        context = super().get_queryset(**kwargs)
+        context= context.filter(user=self.request.user).order_by('task')
+        return context
 
 class TaskCreate(LoginRequiredMixin,CreateView):
     model = Task
@@ -76,9 +96,7 @@ def logOutUser(request):
     logout(request)
     return redirect("/login")
 
-def deadlineSort(request):
-    html = "<html><body>It is now %s.</body></html"
-    return HttpResponse(html)
+
 
 def registerPage(request):
     form = CreateUserForm()
